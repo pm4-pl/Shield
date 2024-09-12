@@ -15,6 +15,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\entity\{EntityDamageByChildEntityEvent, EntityDamageEvent, EntityDamageByEntityEvent};
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\player\PlayerToggleSneakEvent;
+use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\{Axe, ItemIdentifier, ItemTypeIds, StringToItemParser};
 use pocketmine\network\mcpe\protocol\PlayerStartItemCooldownPacket;
 use pocketmine\player\Player;
@@ -36,6 +37,7 @@ final class Shield extends PluginBase implements Listener{
 		$shield = new ShieldItem(new ItemIdentifier(ItemTypeIds::newId()), 'Shield');
 		GlobalItemDataHandlers::getDeserializer()->map(ItemTypeNames::SHIELD, static fn() => clone $shield);
 		GlobalItemDataHandlers::getSerializer()->map($shield, static fn() => new SavedItemData(ItemTypeNames::SHIELD));
+		CreativeInventory::getInstance()->add($shield);
 		StringToItemParser::getInstance()->register('shield', static fn() => clone $shield);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
